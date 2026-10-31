@@ -1,1 +1,236 @@
-# bailarr
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>¿Vamos a Yesterday?</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #230046, #7b168f, #e12c85);
+            font-family: Arial, sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .card {
+            width: 90%;
+            max-width: 420px;
+            padding: 35px 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .emoji {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 17px;
+            color: #f5d9f2;
+        }
+
+        .botones {
+            position: relative;
+            width: 100%;
+            height: 190px;
+            margin-top: 25px;
+        }
+
+        button {
+            border: none;
+            border-radius: 40px;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+
+        #si {
+            position: absolute;
+            left: 10%;
+            top: 20px;
+            background: #ff4081;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.5);
+        }
+
+        #no {
+            position: absolute;
+            left: 60%;
+            top: 20px;
+            background: white;
+            color: #5a176b;
+            transition: left 0.12s, top 0.12s;
+        }
+
+        #resultado {
+            display: none;
+        }
+
+        #resultado h2 {
+            color: #ffb6df;
+            font-size: 28px;
+        }
+
+        .reiniciar {
+            background: #ff4081;
+            color: white;
+            margin-top: 15px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div id="pregunta">
+
+            <div class="emoji">
+                🪩💃🕺
+            </div>
+
+            <h1>
+                ¿Vamos a Yesterday este finde?
+            </h1>
+
+            <p>
+                Elegí tu respuesta... si podés 😉
+            </p>
+
+            <div class="botones" id="zona">
+
+                <button id="si">
+                    ¡SÍ! ❤️
+                </button>
+
+                <button id="no">
+                    NO 😢
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="resultado">
+
+            <div class="emoji">
+                🎉🪩❤️
+            </div>
+
+            <h2>
+                ¡Sabía que ibas a decir que sí!
+            </h2>
+
+            <p>
+                ¡Nos vemos en la previa! 💃🕺
+            </p>
+
+            <button class="reiniciar" onclick="location.reload()">
+                Otra vez
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const botonNo = document.getElementById("no");
+        const botonSi = document.getElementById("si");
+        const zona = document.getElementById("zona");
+
+        // Mover el botón NO a una posición aleatoria
+
+        function moverNo() {
+
+            const anchoMaximo =
+                zona.clientWidth - botonNo.offsetWidth;
+
+            const altoMaximo =
+                zona.clientHeight - botonNo.offsetHeight;
+
+            let x;
+            let y;
+            let intentos = 0;
+
+            do {
+
+                x = Math.random() * anchoMaximo;
+                y = Math.random() * altoMaximo;
+
+                intentos++;
+
+            } while (
+                Math.abs(x - botonNo.offsetLeft) < 65 &&
+                Math.abs(y - botonNo.offsetTop) < 45 &&
+                intentos < 30
+            );
+
+            botonNo.style.left = x + "px";
+            botonNo.style.top = y + "px";
+
+        }
+
+        // Cuando acercan el mouse al botón NO
+
+        botonNo.addEventListener("mouseenter", moverNo);
+
+        // Cuando intentan tocar NO en el celular
+
+        botonNo.addEventListener("pointerdown", function(event) {
+
+            event.preventDefault();
+            moverNo();
+
+        });
+
+        // Evitar que puedan hacer clic en NO
+
+        botonNo.addEventListener("click", function(event) {
+
+            event.preventDefault();
+            moverNo();
+
+        });
+
+        // Cuando presionan SÍ
+
+        botonSi.addEventListener("click", function() {
+
+            document.getElementById("pregunta").style.display = "none";
+
+            document.getElementById("resultado").style.display = "block";
+
+        });
+
+    </script>
+
+</body>
+</html>
